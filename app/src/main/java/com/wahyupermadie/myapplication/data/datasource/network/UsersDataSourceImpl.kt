@@ -70,6 +70,7 @@ class UsersDataSourceImpl(
                     user.followers ?: 0,
                     user.following ?: 0,
                     user.publicRepos ?: 0,
+                    user.blog ?: "don't have a blog",
                     user.id
                 )
 

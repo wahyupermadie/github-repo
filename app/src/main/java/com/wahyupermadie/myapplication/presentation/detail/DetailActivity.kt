@@ -1,17 +1,12 @@
 package com.wahyupermadie.myapplication.presentation.detail
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import coil.api.load
-import com.wahyupermadie.myapplication.R
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
-import com.wahyupermadie.myapplication.presentation.main.MainViewModel
 import com.wahyupermadie.myapplication.utils.extension.observe
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -19,10 +14,10 @@ import java.util.Locale
 @AndroidEntryPoint
 class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
-    private val viewModel: DetailViewModel by viewModels()
+    private val detailVm: DetailViewModel by viewModels()
 
     override fun getViewModel(): DetailViewModel {
-       return viewModel
+       return detailVm
     }
 
     override fun getViewBinding(): ActivityDetailBinding {
@@ -36,12 +31,12 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
     }
 
     override fun setupData() {
-        observe(viewModel.user, ::setupDetail)
+        observe(detailVm.user, ::setupDetail)
 
         val data = intent?.getParcelableExtra<User>("data")
         data?.let {
             lifecycleScope.launchWhenCreated {
-                viewModel.fetchDetailUser(it.name!!)
+                detailVm.fetchDetailUser(it.name!!)
             }
         }
     }

@@ -9,6 +9,6 @@ import kotlinx.coroutines.flow.Flow
 interface UsersLocalDataSource {
     suspend fun insertUser(userResponse: UserResponse)
     suspend fun getUsers(page: Int): List<UserResponse>
-    suspend fun updateUser(followers: Int, following: Int, repos: Int, id: Int)
+    suspend fun updateUser(followers: Int, following: Int, repos: Int, blog: String, id: Int)
     suspend fun getDetailUser(id: Int): UserResponse
 }

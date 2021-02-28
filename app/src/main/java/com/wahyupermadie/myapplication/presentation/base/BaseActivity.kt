@@ -2,7 +2,9 @@ package com.wahyupermadie.myapplication.presentation.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
+import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.utils.ErrorType
 import com.wahyupermadie.myapplication.utils.ErrorType.NetworkErrorException
 import com.wahyupermadie.myapplication.utils.ErrorType.UnknownHostException
@@ -11,9 +13,7 @@ import retrofit2.HttpException
 
 abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivity() {
 
-    val binding by lazy {
-        getViewBinding()
-    }
+    lateinit var  binding : T
 
     abstract fun getViewModel() : V
 
@@ -21,7 +21,8 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(getViewBinding().root)
+        binding = getViewBinding()
+        setContentView(binding.root)
         setupData()
         setupListener()
         observeData(getViewModel())
