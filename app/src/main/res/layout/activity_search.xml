@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".presentation.main.MainActivity">
+    tools:context=".presentation.search.SearchActivity">
 
     <EditText
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:id="@+id/etSearch"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_48"
