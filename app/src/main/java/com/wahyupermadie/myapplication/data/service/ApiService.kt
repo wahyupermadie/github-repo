@@ -15,4 +15,9 @@ interface ApiService {
         @Query("per_page") perPage: Int
     ) : Response<List<UserResponse>>
 
+    @GET("users/{login}")
+    suspend fun getUser(
+        @Path("login") userName: String
+    ) : Response<UserResponse>
+
 }

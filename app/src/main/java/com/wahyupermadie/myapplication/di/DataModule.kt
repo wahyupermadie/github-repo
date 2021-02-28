@@ -1,17 +1,15 @@
 package com.wahyupermadie.myapplication.di
 
 import android.app.Application
-import androidx.room.RoomDatabase
 import com.wahyupermadie.myapplication.data.dao.UserDao
 import com.wahyupermadie.myapplication.data.datasource.local.UsersLocalDataSource
 import com.wahyupermadie.myapplication.data.datasource.local.UsersLocalDataSourceImpl
-import com.wahyupermadie.myapplication.data.datasource.network.UsersDataSource
+import com.wahyupermadie.myapplication.data.datasource.network.UsersDataSourceImpl
 import com.wahyupermadie.myapplication.data.repository.local.LocalRepository
 import com.wahyupermadie.myapplication.data.repository.local.LocalRepositoryImpl
 import com.wahyupermadie.myapplication.data.repository.remote.NetworkRepository
 import com.wahyupermadie.myapplication.data.repository.remote.NetworkRepositoryImpl
 import com.wahyupermadie.myapplication.data.service.ApiService
-import com.wahyupermadie.myapplication.data.usecase.UsersUseCase
 import com.wahyupermadie.myapplication.data.usecase.UsersUseCaseImpl
 import com.wahyupermadie.myapplication.utils.database.GithubDatabase
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
@@ -37,8 +35,8 @@ object DataModule {
         apiService: ApiService,
         userLocalDataSource: UsersLocalDataSource,
         dispatcherProvider: DispatcherProvider
-    ) : UsersDataSource {
-        return UsersDataSource(
+    ) : UsersDataSourceImpl {
+        return UsersDataSourceImpl(
             apiService,
             userLocalDataSource,
             dispatcherProvider
@@ -71,7 +69,7 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideNetworkRepository(usersDataSource: UsersDataSource): NetworkRepository {
-        return NetworkRepositoryImpl(usersDataSource)
+    fun provideNetworkRepository(usersDataSourceImpl: UsersDataSourceImpl): NetworkRepository {
+        return NetworkRepositoryImpl(usersDataSourceImpl)
     }
 }

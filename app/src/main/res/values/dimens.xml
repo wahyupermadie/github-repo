@@ -26,4 +26,6 @@
     <dimen name="margin_76">76dp</dimen>
     <dimen name="margin_80">80dp</dimen>
     <dimen name="margin_92">92dp</dimen>
+    <dimen name="margin_100">100dp</dimen>
+    <dimen name="margin_230">230dp</dimen>
 </resources>

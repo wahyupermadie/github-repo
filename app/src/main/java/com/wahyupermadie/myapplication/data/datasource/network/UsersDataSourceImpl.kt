@@ -7,14 +7,18 @@ import com.wahyupermadie.myapplication.data.repository.entity.UserResponse
 import com.wahyupermadie.myapplication.data.service.ApiService
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
 import com.wahyupermadie.myapplication.utils.network.State
+import com.wahyupermadie.myapplication.utils.network.State.Failure
+import com.wahyupermadie.myapplication.utils.network.State.Success
 import com.wahyupermadie.myapplication.utils.network.safeCallApi
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import org.junit.internal.runners.statements.*
 
-class UsersDataSource(
+class UsersDataSourceImpl(
     private val apiService: ApiService,
     private val usersLocalDataSource: UsersLocalDataSource,
     private val dispatcherProvider: DispatcherProvider
-) : PagingSource<Int, UserResponse>() {
+) : PagingSource<Int, UserResponse>(), UserDataSource {
 
     private fun getLastUserId(data: List<UserResponse>) : Int {
         val length = data.size
@@ -29,7 +33,7 @@ class UsersDataSource(
         }
 
         return when (response) {
-            is State.Success -> {
+            is Success -> {
                 response.data.forEach {
                     val user = it.copy(page = nextPage)
                     usersLocalDataSource.insertUser(user)
@@ -37,13 +41,14 @@ class UsersDataSource(
                 val users = withContext(dispatcherProvider.io()) {
                     usersLocalDataSource.getUsers(nextPage)
                 }
+                Log.d("DATA_GUE", "DATA "+users)
                 LoadResult.Page(
                     data = users,
                     prevKey = null,
                     nextKey = getLastUserId(response.data)
                 )
             }
-            is State.Failure -> {
+            is Failure -> {
                 response.error?.let { LoadResult.Error(it) } ?: LoadResult.Error(Throwable())
             }
         }
@@ -51,5 +56,31 @@ class UsersDataSource(
 
     override fun getRefreshKey(state: PagingState<Int, UserResponse>): Int? {
         return 0
+    }
+
+    override suspend fun getUser(userName: String): State<UserResponse> {
+        val response = safeCallApi {
+            apiService.getUser(userName)
+        }
+
+        return when(response) {
+            is Success -> {
+                val user = response.data
+                usersLocalDataSource.updateUser(
+                    user.followers ?: 0,
+                    user.following ?: 0,
+                    user.publicRepos ?: 0,
+                    user.id
+                )
+
+                val localUser = withContext(dispatcherProvider.io()) {
+                    usersLocalDataSource.getDetailUser(user.id)
+                }
+                Success(localUser)
+            }
+            is Failure -> {
+                Failure(response.error)
+            }
+        }
     }
 }

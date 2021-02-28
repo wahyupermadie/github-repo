@@ -1,5 +1,6 @@
 package com.wahyupermadie.myapplication.presentation.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyupermadie.myapplication.R
 import com.wahyupermadie.myapplication.databinding.ActivityMainBinding
+import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val adapters = MainUserAdapter {
-
+            Intent(this, DetailActivity::class.java).apply {
+                this.putExtra("data", it)
+            }.run {
+                startActivity(this)
+            }
         }
 
         binding.rvUser.apply {

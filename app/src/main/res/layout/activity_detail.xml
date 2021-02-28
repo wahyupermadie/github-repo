@@ -1,9 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.detail.DetailActivity">
+    android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        tools:context=".presentation.detail.DetailActivity">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/margin_100"
+            android:layout_height="@dimen/margin_100"
+            android:scaleType="centerCrop"
+            android:src="@drawable/iv_avatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFollowers"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvFollowersTag"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowing"
+            app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="1.000" />
+
+
+        <TextView
+            android:id="@+id/tvFollowing"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvFollowingTag"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowers"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="1.200" />
+
+
+        <TextView
+            android:id="@+id/tvRepo"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvRepoTag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowing"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25"
+            tools:text="1.300" />
+
+        <TextView
+            android:id="@+id/tvFollowersTag"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="center|top"
+            android:text="@string/text_followers"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAvatar"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowingTag"
+            app:layout_constraintStart_toEndOf="@+id/ivAvatar"
+            app:layout_constraintTop_toBottomOf="@id/tvFollowers"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:id="@+id/tvFollowingTag"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="center|top"
+            android:text="@string/text_following"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFollowersTag"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowersTag"
+            app:layout_constraintTop_toBottomOf="@id/tvFollowing"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:id="@+id/tvRepoTag"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_0"
+            android:gravity="center|top"
+            android:text="@string/text_repos"
+            app:layout_constraintBottom_toBottomOf="@+id/tvFollowingTag"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowingTag"
+            app:layout_constraintTop_toBottomOf="@id/tvRepo"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatar"
+            tools:text="Wahyu Permadi" />
+
+        <TextView
+            android:id="@+id/tvBlog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            tools:text="wahyupermadi.netlify.com" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/noteLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintTop_toBottomOf="@+id/tvBlog">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_100"
+                android:gravity="top"
+                android:hint="@string/text_note"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:padding="15dp"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_56"
+            android:layout_marginTop="@dimen/margin_16"
+            android:text="@string/text_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noteLayout" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

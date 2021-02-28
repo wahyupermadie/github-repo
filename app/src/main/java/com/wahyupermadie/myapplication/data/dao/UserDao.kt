@@ -14,5 +14,11 @@ interface UserDao {
     suspend fun insertUser(userResponse: UserResponse)
 
     @Query("SELECT * FROM tb_user WHERE page = :pageIndex")
-    fun getUsers(pageIndex: Int): List<UserResponse>
+    suspend fun getUsers(pageIndex: Int): List<UserResponse>
+
+    @Query("UPDATE tb_user SET followers = :followers, following = :following, publicRepos = :repos WHERE id = :id")
+    suspend fun updateUser(followers: Int, following: Int, repos: Int, id: Int)
+
+    @Query("SELECT * FROM tb_user WHERE id = :id")
+    suspend fun getUserDetail(id: Int): UserResponse
 }

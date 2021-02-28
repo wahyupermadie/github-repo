@@ -11,6 +11,7 @@ fun UserResponse.transform() : User {
         this.followers,
         this.avatarUrl,
         this.following,
+        this.publicRepos,
         this.name ?: this.login,
         this.note
     )
