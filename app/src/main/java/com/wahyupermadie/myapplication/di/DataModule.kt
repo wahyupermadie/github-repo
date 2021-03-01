@@ -10,7 +10,6 @@ import com.wahyupermadie.myapplication.data.repository.local.LocalRepositoryImpl
 import com.wahyupermadie.myapplication.data.repository.remote.NetworkRepository
 import com.wahyupermadie.myapplication.data.repository.remote.NetworkRepositoryImpl
 import com.wahyupermadie.myapplication.data.service.ApiService
-import com.wahyupermadie.myapplication.data.usecase.UsersUseCaseImpl
 import com.wahyupermadie.myapplication.utils.database.GithubDatabase
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
 import dagger.Module
@@ -22,13 +21,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataModule {
-
-    @Provides
-    @Singleton
-    fun provideUserUseCase(
-        networkRepository: NetworkRepository,
-    ): UsersUseCaseImpl = UsersUseCaseImpl(networkRepository)
-
     @Provides
     @Singleton
     fun provideUserDataSource(

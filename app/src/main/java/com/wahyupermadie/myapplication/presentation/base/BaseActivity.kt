@@ -2,9 +2,7 @@ package com.wahyupermadie.myapplication.presentation.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.utils.ErrorType
 import com.wahyupermadie.myapplication.utils.ErrorType.NetworkErrorException
 import com.wahyupermadie.myapplication.utils.ErrorType.UnknownHostException
@@ -23,10 +21,13 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
         super.onCreate(savedInstanceState)
         binding = getViewBinding()
         setContentView(binding.root)
+        setupView(savedInstanceState)
         setupData()
         setupListener()
         observeData(getViewModel())
     }
+
+    abstract fun setupView(savedInstanceState: Bundle?)
 
     private fun observeData(viewModel: V) {
         observeEvent(viewModel.error) {

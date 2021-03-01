@@ -1,6 +1,5 @@
 package com.wahyupermadie.myapplication.data.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,4 +20,7 @@ interface UserDao {
 
     @Query("SELECT * FROM tb_user WHERE id = :id")
     suspend fun getUserDetail(id: Int): UserResponse
+
+    @Query("SELECT * FROM tb_user WHERE login LIKE :name OR note LIKE :note")
+    fun searchUsers(name: String, note: String): Flow<List<UserResponse>>
 }

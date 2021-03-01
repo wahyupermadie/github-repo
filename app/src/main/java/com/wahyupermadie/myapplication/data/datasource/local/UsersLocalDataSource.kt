@@ -1,9 +1,6 @@
 package com.wahyupermadie.myapplication.data.datasource.local
 
-import androidx.paging.PagingSource
-import androidx.room.Query
 import com.wahyupermadie.myapplication.data.repository.entity.UserResponse
-import com.wahyupermadie.myapplication.data.usecase.model.User
 import kotlinx.coroutines.flow.Flow
 
 interface UsersLocalDataSource {
@@ -11,4 +8,5 @@ interface UsersLocalDataSource {
     suspend fun getUsers(page: Int): List<UserResponse>
     suspend fun updateUser(followers: Int, following: Int, repos: Int, blog: String, id: Int)
     suspend fun getDetailUser(id: Int): UserResponse
+    suspend fun searchUsers(name: String, note: String): Flow<List<UserResponse>>
 }

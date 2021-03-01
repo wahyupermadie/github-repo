@@ -1,6 +1,7 @@
 package com.wahyupermadie.myapplication.presentation.main
 
 import android.content.Intent
+import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     private val mainVm: MainViewModel by viewModels()
+    private lateinit var mainAdapter: MainUserAdapter
 
     override fun getViewModel(): MainViewModel {
         return mainVm
@@ -32,7 +34,17 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun setupData() {
-        val adapters = MainUserAdapter {
+        mainVm.users.observe(this, {
+            if (it != null) {
+                mainAdapter.submitData(lifecycle, it)
+            }
+        })
+
+        mainVm.getUser()
+    }
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        mainAdapter = MainUserAdapter {
             Intent(this, DetailActivity::class.java).apply {
                 this.putExtra("data", it)
             }.run {
@@ -43,16 +55,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         binding.rvUser.apply {
             setHasFixedSize(true)
             addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
-            this.adapter = adapters
+            this.adapter = mainAdapter
             this.layoutManager = LinearLayoutManager(this@MainActivity)
         }
-
-        mainVm.users.observe(this, {
-            if (it != null) {
-                adapters.submitData(lifecycle, it)
-            }
-        })
-
-        mainVm.getUser()
     }
 }

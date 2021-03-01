@@ -1,5 +1,6 @@
 package com.wahyupermadie.myapplication.presentation.detail
 
+import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import java.util.Locale
 class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
     private val detailVm: DetailViewModel by viewModels()
+    private lateinit var user: User
 
     override fun getViewModel(): DetailViewModel {
        return detailVm
@@ -33,8 +35,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
     override fun setupData() {
         observe(detailVm.user, ::setupDetail)
 
-        val data = intent?.getParcelableExtra<User>("data")
-        data?.let {
+        user.let {
             lifecycleScope.launchWhenCreated {
                 detailVm.fetchDetailUser(it.name!!)
             }
@@ -51,17 +52,23 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
             tvBlog.text = user.blog
             etNote.setText(user.note ?: "")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        intent?.getParcelableExtra<User>("data")?.let {
+            user = it
+        }
 
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             title = user.name?.capitalize(Locale.getDefault())
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            android.R.id.home -> finish()
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
