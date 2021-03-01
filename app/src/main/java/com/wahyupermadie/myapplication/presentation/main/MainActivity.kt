@@ -9,6 +9,8 @@ import com.wahyupermadie.myapplication.databinding.ActivityMainBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
 import com.wahyupermadie.myapplication.presentation.search.SearchActivity
+import com.wahyupermadie.myapplication.utils.extension.hideView
+import com.wahyupermadie.myapplication.utils.extension.showView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,6 +59,22 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
             addItemDecoration(DividerItemDecoration(this.context, LinearLayoutManager.VERTICAL))
             this.adapter = mainAdapter
             this.layoutManager = LinearLayoutManager(this@MainActivity)
+        }
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        binding.apply {
+            rvUser.hideView()
+            shimmerHome.showView()
+        }
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+        binding.apply {
+            rvUser.showView()
+            shimmerHome.hideView()
         }
     }
 }

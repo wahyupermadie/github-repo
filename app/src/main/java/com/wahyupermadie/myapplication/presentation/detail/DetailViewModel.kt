@@ -2,12 +2,12 @@ package com.wahyupermadie.myapplication.presentation.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wahyupermadie.myapplication.data.usecase.UsersUseCaseImpl
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.presentation.base.BaseViewModel
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
+import com.wahyupermadie.myapplication.utils.network.Event
 import com.wahyupermadie.myapplication.utils.network.State.Failure
 import com.wahyupermadie.myapplication.utils.network.State.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +25,7 @@ class DetailViewModel @Inject constructor(
     val user : LiveData<User> get() = _user
 
     suspend fun fetchDetailUser(userName: String) {
+        _isLoading.value = Event(true)
         viewModelScope.launch(dispatcher.ui()) {
             val response = withContext(dispatcher.io()) {
                 usersUseCase.fetchUserDetail(userName)
@@ -32,9 +33,10 @@ class DetailViewModel @Inject constructor(
             when(response) {
                 is Success -> {
                     _user.value = response.data
+                    _isLoading.value = Event(false)
                 }
                 is Failure -> {
-
+                    _error.value = Event(response.error!!)
                 }
             }
         }

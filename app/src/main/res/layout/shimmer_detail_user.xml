@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_16"
+        android:layout_marginStart="@dimen/margin_16"
+        android:layout_marginTop="@dimen/margin_16"
+        tools:context=".presentation.detail.DetailActivity">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivAvatarShimmer"
+            android:layout_width="@dimen/margin_100"
+            android:layout_height="@dimen/margin_100"
+            android:scaleType="centerCrop"
+            android:src="@color/shimmer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFollowersShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:background="@color/shimmer"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvFollowersTagShimmer"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowingShimmer"
+            app:layout_constraintStart_toEndOf="@+id/ivAvatarShimmer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:paddingEnd="@dimen/margin_8"
+            android:paddingStart="@dimen/margin_8"
+            android:id="@+id/tvFollowingShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:background="@color/shimmer"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvFollowingTagShimmer"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowersShimmer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:background="@color/shimmer"
+            android:id="@+id/tvRepoShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:gravity="bottom|center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvRepoTagShimmer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowingShimmer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <TextView
+            android:background="@color/shimmer"
+            android:id="@+id/tvFollowersTagShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:gravity="center|top"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAvatarShimmer"
+            app:layout_constraintEnd_toStartOf="@+id/tvFollowingTagShimmer"
+            app:layout_constraintStart_toEndOf="@+id/ivAvatarShimmer"
+            app:layout_constraintTop_toBottomOf="@id/tvFollowersShimmer"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:id="@+id/tvFollowingTagShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:background="@color/shimmer"
+            android:gravity="center|top"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAvatarShimmer"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowersTagShimmer"
+            app:layout_constraintTop_toBottomOf="@id/tvFollowingShimmer"
+            app:layout_constraintWidth_percent="0.25" />
+
+
+        <TextView
+            android:id="@+id/tvRepoTagShimmer"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="@dimen/margin_24"
+            android:gravity="center|top"
+            android:background="@color/shimmer"
+            app:layout_constraintBottom_toBottomOf="@+id/ivAvatarShimmer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvFollowingTagShimmer"
+            app:layout_constraintTop_toBottomOf="@id/tvRepoShimmer"
+            app:layout_constraintWidth_percent="0.25" />
+
+        <TextView
+            android:id="@+id/tvNameShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_8"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivAvatarShimmer"
+            android:background="@color/shimmer" />
+
+        <TextView
+            android:layout_marginTop="@dimen/margin_8"
+            android:id="@+id/tvBlogShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameShimmer"
+            android:background="@color/shimmer" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:background="@color/shimmer"
+            android:id="@+id/noteLayoutShimmer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_24"
+            app:layout_constraintTop_toBottomOf="@+id/tvBlogShimmer">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:background="@color/shimmer"
+                android:id="@+id/etNote"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_100"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:overScrollMode="always"
+                android:padding="@dimen/margin_16"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:background="@color/shimmer"
+            android:id="@+id/btnSaveShimmer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_56"
+            android:layout_marginTop="@dimen/margin_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noteLayoutShimmer" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

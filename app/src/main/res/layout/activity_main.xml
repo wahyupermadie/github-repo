@@ -10,6 +10,7 @@
     tools:context=".presentation.main.MainActivity">
 
     <EditText
+        android:focusableInTouchMode="false"
         android:id="@+id/etSearch"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_48"
@@ -29,10 +30,27 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerHome"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_0"
+        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintBottom_toBottomOf="@+id/rvUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shimmer_duration="1000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch"
+        app:shimmer_auto_start="true">
+
+        <include layout="@layout/shimmer_user_layout" />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/rvUser"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_0"
+        android:layout_marginTop="@dimen/margin_8"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

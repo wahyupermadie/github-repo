@@ -1,5 +1,6 @@
 package com.wahyupermadie.myapplication.presentation.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
@@ -10,8 +11,10 @@ import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.data.usecase.search.SearchUserAdapter
 import com.wahyupermadie.myapplication.databinding.ActivitySearchBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
+import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
+import com.wahyupermadie.myapplication.utils.extension.hideView
 import com.wahyupermadie.myapplication.utils.extension.observe
-import com.wahyupermadie.myapplication.utils.extension.showToast
+import com.wahyupermadie.myapplication.utils.extension.showView
 import com.wahyupermadie.myapplication.utils.extension.textChanges
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,7 +44,18 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
     @FlowPreview
     override fun setupData() {
         observe(searchVm.users) {
-            searchUserAdapter.addData(it)
+            if (it.isEmpty()) {
+                binding.apply {
+                    rvUser.hideView()
+                    clEmptyState.showView()
+                }
+            } else {
+                binding.apply {
+                    rvUser.showView()
+                    clEmptyState.hideView()
+                }
+                searchUserAdapter.addData(it)
+            }
         }
 
         binding.etSearch.textChanges()
@@ -77,6 +91,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
     }
 
     override fun onItemClick(user: User) {
-        showToast(user.name ?: "")
+        Intent(this, DetailActivity::class.java).apply {
+            this.putExtra("data", user)
+        }.run {
+            startActivity(this)
+        }
     }
 }

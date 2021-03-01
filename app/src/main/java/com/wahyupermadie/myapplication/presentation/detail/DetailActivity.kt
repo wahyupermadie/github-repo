@@ -8,7 +8,9 @@ import coil.api.load
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
+import com.wahyupermadie.myapplication.utils.extension.hideView
 import com.wahyupermadie.myapplication.utils.extension.observe
+import com.wahyupermadie.myapplication.utils.extension.showView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -69,6 +71,22 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
             title = user.name?.capitalize(Locale.getDefault())
+        }
+    }
+
+    override fun showLoading() {
+        super.showLoading()
+        binding.apply {
+            shimmerDetail.showView()
+            clDetailContainer.hideView()
+        }
+    }
+
+    override fun hideLoading() {
+        super.hideLoading()
+        binding.apply {
+            shimmerDetail.hideView()
+            clDetailContainer.showView()
         }
     }
 }

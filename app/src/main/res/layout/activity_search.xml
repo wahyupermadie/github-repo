@@ -42,4 +42,40 @@
         app:reverseLayout="false"
         tools:listitem="@layout/item_user" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/clEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch">
+
+        <ImageView
+            android:id="@+id/ivEmpty"
+            android:layout_width="@dimen/margin_230"
+            android:layout_height="@dimen/margin_230"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.249"
+            app:srcCompat="@drawable/ic_empty" />
+
+        <TextView
+            android:layout_marginEnd="@dimen/margin_24"
+            android:layout_marginStart="@dimen/margin_24"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:id="@+id/tvEmptyState"
+            android:layout_width="@dimen/margin_0"
+            android:layout_height="wrap_content"
+            android:text="@string/text_empty_message"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivEmpty" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
