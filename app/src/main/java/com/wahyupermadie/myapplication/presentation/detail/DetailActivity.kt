@@ -10,6 +10,7 @@ import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.utils.extension.hideView
 import com.wahyupermadie.myapplication.utils.extension.observe
+import com.wahyupermadie.myapplication.utils.extension.showToast
 import com.wahyupermadie.myapplication.utils.extension.showView
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -35,6 +36,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
     }
 
     override fun setupData() {
+        detailVm.checkConnection()
         observe(detailVm.user, ::setupDetail)
 
         user.let {
@@ -87,6 +89,18 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
         binding.apply {
             shimmerDetail.hideView()
             clDetailContainer.showView()
+        }
+    }
+
+    override fun isNetworkAvailable(isAvailable: Boolean) {
+        if (isAvailable) {
+            user.let {
+                lifecycleScope.launchWhenCreated {
+                    detailVm.fetchDetailUser(it.name!!)
+                }
+            }
+        } else {
+            showToast("No Connection")
         }
     }
 }

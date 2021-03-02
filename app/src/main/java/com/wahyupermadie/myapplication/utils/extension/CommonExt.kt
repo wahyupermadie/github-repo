@@ -2,7 +2,6 @@ package com.wahyupermadie.myapplication.utils.extension
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.core.graphics.drawable.toBitmap
 import coil.ImageLoader
 import coil.request.LoadRequest
 

@@ -22,9 +22,9 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
         binding = getViewBinding()
         setContentView(binding.root)
         setupView(savedInstanceState)
+        observeData(getViewModel())
         setupData()
         setupListener()
-        observeData(getViewModel())
     }
 
     abstract fun setupView(savedInstanceState: Bundle?)
@@ -45,10 +45,13 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
                 hideLoading()
             }
         }
+
+        observeEvent(viewModel.isNetworkAvailable, ::isNetworkAvailable)
     }
 
     abstract fun setupListener()
     abstract fun setupData()
+    abstract fun isNetworkAvailable(isAvailable: Boolean)
 
     protected open fun showLoading() {}
     protected open fun hideLoading() {}

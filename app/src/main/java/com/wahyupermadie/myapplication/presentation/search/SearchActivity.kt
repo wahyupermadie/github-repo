@@ -14,6 +14,7 @@ import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
 import com.wahyupermadie.myapplication.utils.extension.hideView
 import com.wahyupermadie.myapplication.utils.extension.observe
+import com.wahyupermadie.myapplication.utils.extension.showToast
 import com.wahyupermadie.myapplication.utils.extension.showView
 import com.wahyupermadie.myapplication.utils.extension.textChanges
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +29,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
 
     private val searchVm: SearchViewModel by viewModels()
     private lateinit var searchUserAdapter: SearchUserAdapter
+    private var keyword: String = ""
 
     override fun getViewModel(): SearchViewModel {
         return searchVm
@@ -43,6 +45,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
     @ExperimentalCoroutinesApi
     @FlowPreview
     override fun setupData() {
+        searchVm.checkConnection()
         observe(searchVm.users) {
             if (it.isEmpty()) {
                 binding.apply {
@@ -61,7 +64,8 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
         binding.etSearch.textChanges()
             .debounce(600)
             .onEach {
-                searchVm.searchUser(it.toString())
+                keyword = it.toString()
+                searchVm.searchUser(keyword)
             }
             .launchIn(lifecycleScope)
     }
@@ -95,6 +99,14 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
             this.putExtra("data", user)
         }.run {
             startActivity(this)
+        }
+    }
+
+    override fun isNetworkAvailable(isAvailable: Boolean) {
+        if (isAvailable) {
+            searchVm.searchUser(keyword)
+        } else {
+            showToast("No Connection")
         }
     }
 }

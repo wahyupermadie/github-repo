@@ -10,6 +10,7 @@ import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
 import com.wahyupermadie.myapplication.presentation.search.SearchActivity
 import com.wahyupermadie.myapplication.utils.extension.hideView
+import com.wahyupermadie.myapplication.utils.extension.showToast
 import com.wahyupermadie.myapplication.utils.extension.showView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,13 +37,12 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     override fun setupData() {
+        mainVm.checkConnection()
         mainVm.users.observe(this, {
             if (it != null) {
                 mainAdapter.submitData(lifecycle, it)
             }
         })
-
-        mainVm.getUser()
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
@@ -75,6 +75,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>() {
         binding.apply {
             rvUser.showView()
             shimmerHome.hideView()
+        }
+    }
+
+    override fun isNetworkAvailable(isAvailable: Boolean) {
+        if (isAvailable) {
+            mainVm.getUser()
+        } else {
+            showToast("No Connection")
         }
     }
 }

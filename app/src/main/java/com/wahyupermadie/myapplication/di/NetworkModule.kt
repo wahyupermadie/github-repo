@@ -6,10 +6,13 @@ import com.wahyupermadie.myapplication.BuildConfig
 import com.wahyupermadie.myapplication.data.service.ApiService
 import com.wahyupermadie.myapplication.utils.network.AppDispatcherProvider
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
+import com.wahyupermadie.myapplication.utils.network.NetworkCacheInterceptor
+import com.wahyupermadie.myapplication.utils.network.connection.NetworkState
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -28,18 +31,22 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provdieOkHttpClinet(
-        application: Application
+        application: Application,
+        networkState: NetworkState
     ): OkHttpClient {
+        val cacheSize = (5 * 1024 * 1024).toLong()
+        val myCache = Cache(application.cacheDir, cacheSize)
+
         return OkHttpClient.Builder()
+            .cache(myCache)
             .addInterceptor(ChuckInterceptor(application))
             .addInterceptor {
                 val request = it.request()
                     .newBuilder()
-                    .addHeader("Authorization","token 7f37e6642f291050926ddecf1a304bb9b348b382")
-                    .addHeader("Accept","application/vnd.github.v3+json")
+                    .addHeader("Accept", "application/vnd.github.v3+json")
                     .build()
                 it.proceed(request)
-            }
+            }.addInterceptor(NetworkCacheInterceptor(networkState))
             .build()
     }
 
