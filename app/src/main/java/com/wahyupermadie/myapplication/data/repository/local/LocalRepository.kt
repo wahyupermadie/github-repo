@@ -7,4 +7,5 @@ interface LocalRepository {
     suspend fun insertUser(user: UserResponse)
     suspend fun getUsers(page: Int): List<UserResponse>
     suspend fun searchUsers(name: String, note: String): Flow<List<UserResponse>>
+    suspend fun updateUser(note: String, id: Int)
 }

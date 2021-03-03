@@ -1,13 +1,17 @@
-package com.wahyupermadie.myapplication.data.usecase.search
+package com.wahyupermadie.myapplication.presentation.search
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.databinding.ItemUserBinding
+import com.wahyupermadie.myapplication.presentation.search.SearchUserAdapter.ViewHolder
+import com.wahyupermadie.myapplication.utils.extension.loadImage
 
-class SearchUserAdapter : RecyclerView.Adapter<SearchUserAdapter.ViewHolder>() {
+class SearchUserAdapter(
+    private val context: Context
+) : RecyclerView.Adapter<ViewHolder>() {
 
     private var users: List<User> = mutableListOf()
     private lateinit var onClickListener: OnClickListener
@@ -20,13 +24,13 @@ class SearchUserAdapter : RecyclerView.Adapter<SearchUserAdapter.ViewHolder>() {
         this.notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchUserAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: SearchUserAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(users[position], onClickListener, position)
     }
 
@@ -42,7 +46,7 @@ class SearchUserAdapter : RecyclerView.Adapter<SearchUserAdapter.ViewHolder>() {
                     onClickListener.onItemClick(user)
                 }
                 tvName.text = user.name
-                ivAvatar.load(user.avatarUrl)
+                user.avatarUrl?.let { ivAvatar.loadImage(it, context) }
             }
         }
     }

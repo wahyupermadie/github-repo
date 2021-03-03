@@ -1,20 +1,17 @@
 package com.wahyupermadie.myapplication.utils.extension
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import coil.ImageLoader
-import coil.request.LoadRequest
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.wahyupermadie.myapplication.R
 
-inline fun Context.loadImage(
+fun ImageView.loadImage(
     imgUrl: String,
-    crossinline onSuccess: (Drawable) -> Unit
+    context: Context
 ) {
-    val imageLoader = ImageLoader(this)
-    val request = LoadRequest.Builder(this)
-            .data(imgUrl)
-            .target{ drawable ->
-                onSuccess(drawable)
-
-            }.build()
-    imageLoader.execute(request)
+    Glide.with(context)
+        .asBitmap()
+        .load(imgUrl)
+        .placeholder(R.drawable.iv_avatar)
+        .into(this)
 }

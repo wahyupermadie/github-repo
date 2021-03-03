@@ -9,4 +9,5 @@ interface UsersLocalDataSource {
     suspend fun updateUser(followers: Int, following: Int, repos: Int, blog: String, id: Int)
     suspend fun getDetailUser(id: Int): UserResponse
     suspend fun searchUsers(name: String, note: String): Flow<List<UserResponse>>
+    suspend fun updateUser(note: String, id: Int)
 }

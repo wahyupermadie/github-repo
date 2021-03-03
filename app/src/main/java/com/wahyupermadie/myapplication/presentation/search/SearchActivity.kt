@@ -8,13 +8,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wahyupermadie.myapplication.data.usecase.model.User
-import com.wahyupermadie.myapplication.data.usecase.search.SearchUserAdapter
 import com.wahyupermadie.myapplication.databinding.ActivitySearchBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.presentation.detail.DetailActivity
 import com.wahyupermadie.myapplication.utils.extension.hideView
 import com.wahyupermadie.myapplication.utils.extension.observe
-import com.wahyupermadie.myapplication.utils.extension.showToast
 import com.wahyupermadie.myapplication.utils.extension.showView
 import com.wahyupermadie.myapplication.utils.extension.textChanges
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +27,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
 
     private val searchVm: SearchViewModel by viewModels()
     private lateinit var searchUserAdapter: SearchUserAdapter
-    private var keyword: String = ""
 
     override fun getViewModel(): SearchViewModel {
         return searchVm
@@ -45,7 +42,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
     @ExperimentalCoroutinesApi
     @FlowPreview
     override fun setupData() {
-        searchVm.checkConnection()
         observe(searchVm.users) {
             if (it.isEmpty()) {
                 binding.apply {
@@ -64,14 +60,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
         binding.etSearch.textChanges()
             .debounce(600)
             .onEach {
-                keyword = it.toString()
-                searchVm.searchUser(keyword)
+                searchVm.searchUser(it.toString())
             }
             .launchIn(lifecycleScope)
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
-        searchUserAdapter = SearchUserAdapter()
+        searchUserAdapter = SearchUserAdapter(this)
         searchUserAdapter.apply {
             this.setListener(this@SearchActivity)
         }
@@ -99,14 +94,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding, SearchViewModel>(), S
             this.putExtra("data", user)
         }.run {
             startActivity(this)
-        }
-    }
-
-    override fun isNetworkAvailable(isAvailable: Boolean) {
-        if (isAvailable) {
-            searchVm.searchUser(keyword)
-        } else {
-            showToast("No Connection")
         }
     }
 }

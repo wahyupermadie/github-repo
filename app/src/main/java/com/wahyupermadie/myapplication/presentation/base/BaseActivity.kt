@@ -7,6 +7,7 @@ import com.wahyupermadie.myapplication.utils.ErrorType
 import com.wahyupermadie.myapplication.utils.ErrorType.NetworkErrorException
 import com.wahyupermadie.myapplication.utils.ErrorType.UnknownHostException
 import com.wahyupermadie.myapplication.utils.extension.observeEvent
+import com.wahyupermadie.myapplication.utils.network.connection.ConnectivityWatcher
 import retrofit2.HttpException
 
 abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivity() {
@@ -46,12 +47,12 @@ abstract class BaseActivity<T : ViewBinding, V: BaseViewModel> : AppCompatActivi
             }
         }
 
-        observeEvent(viewModel.isNetworkAvailable, ::isNetworkAvailable)
+        observeEvent(ConnectivityWatcher(this), ::isNetworkAvailable)
     }
 
     abstract fun setupListener()
     abstract fun setupData()
-    abstract fun isNetworkAvailable(isAvailable: Boolean)
+    protected open fun isNetworkAvailable(isAvailable: Boolean) {}
 
     protected open fun showLoading() {}
     protected open fun hideLoading() {}

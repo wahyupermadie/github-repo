@@ -8,7 +8,6 @@ import com.wahyupermadie.myapplication.data.usecase.search.SearchUserUseCase
 import com.wahyupermadie.myapplication.presentation.base.BaseViewModel
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
 import com.wahyupermadie.myapplication.utils.network.Event
-import com.wahyupermadie.myapplication.utils.network.connection.NetworkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,9 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val searchUserUseCase: SearchUserUseCase,
-    private val dispatcherProvider: DispatcherProvider,
-    networkState: NetworkState
-) : BaseViewModel(networkState) {
+    private val dispatcherProvider: DispatcherProvider
+) : BaseViewModel() {
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>>

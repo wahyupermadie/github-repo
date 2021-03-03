@@ -4,11 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.wahyupermadie.myapplication.utils.network.Event
-import com.wahyupermadie.myapplication.utils.network.connection.NetworkState
 
-abstract class BaseViewModel(
-    private val networkState: NetworkState
-) : ViewModel() {
+abstract class BaseViewModel() : ViewModel() {
 
     protected val _error = MutableLiveData<Event<Throwable>>()
     val error: LiveData<Event<Throwable>>
@@ -18,11 +15,7 @@ abstract class BaseViewModel(
     val isLoading: LiveData<Event<Boolean>>
         get() = _isLoading
 
-    protected val _isNetworkAvailable = MutableLiveData<Event<Boolean>>()
-    val isNetworkAvailable: LiveData<Event<Boolean>>
-        get() = _isNetworkAvailable
-
-    fun checkConnection() {
-        _isNetworkAvailable.value = Event(networkState.isConnected)
+    fun setLoadingState(isLoading: Boolean) {
+        _isLoading.value = Event(isLoading)
     }
 }

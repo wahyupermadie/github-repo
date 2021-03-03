@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import coil.api.load
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.databinding.ActivityDetailBinding
 import com.wahyupermadie.myapplication.presentation.base.BaseActivity
 import com.wahyupermadie.myapplication.utils.extension.hideView
+import com.wahyupermadie.myapplication.utils.extension.loadImage
 import com.wahyupermadie.myapplication.utils.extension.observe
+import com.wahyupermadie.myapplication.utils.extension.observeEvent
 import com.wahyupermadie.myapplication.utils.extension.showToast
 import com.wahyupermadie.myapplication.utils.extension.showView
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,9 +21,11 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
     private val detailVm: DetailViewModel by viewModels()
     private lateinit var user: User
+    private var isAlreadyFetched = false
+    private var oldConnectedStatus = false
 
     override fun getViewModel(): DetailViewModel {
-       return detailVm
+        return detailVm
     }
 
     override fun getViewBinding(): ActivityDetailBinding {
@@ -31,14 +34,18 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
     override fun setupListener() {
         binding.btnSave.setOnClickListener {
-
+            val note = binding.noteLayout.editText?.text.toString()
+            lifecycleScope.launchWhenCreated {
+                user.id?.let { it1 -> detailVm.updateUserNote(note, it1) }
+            }
         }
     }
 
     override fun setupData() {
-        detailVm.checkConnection()
         observe(detailVm.user, ::setupDetail)
-
+        observeEvent(detailVm.isUpdateSuccess) {
+            showToast("Successfully update the user note")
+        }
         user.let {
             lifecycleScope.launchWhenCreated {
                 detailVm.fetchDetailUser(it.name!!)
@@ -48,13 +55,13 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
     private fun setupDetail(user: User) {
         binding.apply {
-            ivAvatar.load(user.avatarUrl)
+            user.avatarUrl?.let { ivAvatar.loadImage(it, this@DetailActivity) }
             tvFollowers.text = user.followers.toString()
             tvFollowing.text = user.following.toString()
             tvRepo.text = user.publicRepos.toString()
             tvName.text = user.name
             tvBlog.text = user.blog
-            etNote.setText(user.note ?: "")
+            noteLayout.editText?.setText(user.note)
         }
     }
 
@@ -94,12 +101,24 @@ class DetailActivity : BaseActivity<ActivityDetailBinding, DetailViewModel>() {
 
     override fun isNetworkAvailable(isAvailable: Boolean) {
         if (isAvailable) {
-            user.let {
-                lifecycleScope.launchWhenCreated {
-                    detailVm.fetchDetailUser(it.name!!)
+            if (!oldConnectedStatus) {
+                oldConnectedStatus = true
+                user.let {
+                    lifecycleScope.launchWhenCreated {
+                        detailVm.fetchDetailUser(it.name!!)
+                    }
                 }
             }
         } else {
+            oldConnectedStatus = false
+            if (isAlreadyFetched) {
+                isAlreadyFetched = false
+                user.let {
+                    lifecycleScope.launchWhenCreated {
+                        detailVm.fetchDetailUser(it.name!!)
+                    }
+                }
+            }
             showToast("No Connection")
         }
     }

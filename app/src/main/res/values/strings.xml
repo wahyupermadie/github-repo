@@ -7,4 +7,5 @@
     <string name="text_save">Save</string>
     <string name="text_search">Search</string>
     <string name="text_empty_message">Oops, sorry, there is no user with that keyword, please use another keyword.</string>
+    <string name="text_something_went_wrong_please_try_again_latter">Something went wrong please try again latter</string>
 </resources>

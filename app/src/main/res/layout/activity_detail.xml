@@ -148,6 +148,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/text_note"
             android:layout_marginTop="@dimen/margin_24"
             app:layout_constraintTop_toBottomOf="@+id/tvBlog">
 
@@ -156,7 +157,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_100"
                 android:gravity="top"
-                android:hint="@string/text_note"
                 android:inputType="textMultiLine"
                 android:overScrollMode="always"
                 android:padding="15dp"

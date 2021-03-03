@@ -1,7 +1,7 @@
 package com.wahyupermadie.myapplication.data.datasource.network
 
-import android.util.Log
-import androidx.paging.*
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.wahyupermadie.myapplication.data.datasource.local.UsersLocalDataSource
 import com.wahyupermadie.myapplication.data.repository.entity.UserResponse
 import com.wahyupermadie.myapplication.data.service.ApiService
@@ -10,9 +10,7 @@ import com.wahyupermadie.myapplication.utils.network.State
 import com.wahyupermadie.myapplication.utils.network.State.Failure
 import com.wahyupermadie.myapplication.utils.network.State.Success
 import com.wahyupermadie.myapplication.utils.network.safeCallApi
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import org.junit.internal.runners.statements.*
+import kotlinx.coroutines.withContext
 
 class UsersDataSourceImpl(
     private val apiService: ApiService,
@@ -41,7 +39,6 @@ class UsersDataSourceImpl(
                 val users = withContext(dispatcherProvider.io()) {
                     usersLocalDataSource.getUsers(nextPage)
                 }
-                Log.d("DATA_GUE", "DATA "+users)
                 LoadResult.Page(
                     data = users,
                     prevKey = null,

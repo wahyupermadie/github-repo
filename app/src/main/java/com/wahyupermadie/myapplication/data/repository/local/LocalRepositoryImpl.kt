@@ -19,4 +19,8 @@ class LocalRepositoryImpl(
     override suspend fun searchUsers(name: String, note: String): Flow<List<UserResponse>> {
         return localDataSource.searchUsers(name, note)
     }
+
+    override suspend fun updateUser(note: String, id: Int) {
+        localDataSource.updateUser(note, id)
+    }
 }

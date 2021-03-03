@@ -10,7 +10,6 @@ import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
 import com.wahyupermadie.myapplication.utils.network.Event
 import com.wahyupermadie.myapplication.utils.network.State.Failure
 import com.wahyupermadie.myapplication.utils.network.State.Success
-import com.wahyupermadie.myapplication.utils.network.connection.NetworkState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,12 +18,15 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val usersUseCase: UsersUseCaseImpl,
-    private val dispatcher: DispatcherProvider,
-    networkState: NetworkState
-) : BaseViewModel(networkState) {
+    private val dispatcher: DispatcherProvider
+) : BaseViewModel() {
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> get() = _user
+
+    private val _isUpdateSuccess = MutableLiveData<Event<Boolean>>()
+    val isUpdateSuccess: LiveData<Event<Boolean>>
+        get() = _isUpdateSuccess
 
     suspend fun fetchDetailUser(userName: String) {
         _isLoading.value = Event(true)
@@ -32,7 +34,7 @@ class DetailViewModel @Inject constructor(
             val response = withContext(dispatcher.io()) {
                 usersUseCase.fetchUserDetail(userName)
             }
-            when(response) {
+            when (response) {
                 is Success -> {
                     _user.value = response.data
                     _isLoading.value = Event(false)
@@ -40,6 +42,17 @@ class DetailViewModel @Inject constructor(
                 is Failure -> {
                     _error.value = Event(response.error!!)
                 }
+            }
+        }
+    }
+
+    suspend fun updateUserNote(note: String, id: Int) {
+        viewModelScope.launch(dispatcher.ui()) {
+            try {
+                usersUseCase.updateUser(note, id)
+                _isUpdateSuccess.value = Event(true)
+            } catch (e: Exception) {
+                _isUpdateSuccess.value = Event(false)
             }
         }
     }

@@ -2,6 +2,7 @@ package com.wahyupermadie.myapplication.data.usecase
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.wahyupermadie.myapplication.data.repository.local.LocalRepository
 import com.wahyupermadie.myapplication.data.repository.remote.NetworkRepository
 import com.wahyupermadie.myapplication.data.usecase.model.User
 import com.wahyupermadie.myapplication.utils.extension.transform
@@ -14,6 +15,7 @@ import javax.inject.Inject
 
 class UsersUseCaseImpl @Inject constructor(
     private val networkRepository: NetworkRepository,
+    private val localRepository: LocalRepository
 ) : UsersUseCase {
 
     override suspend fun fetchUser(): Flow<PagingData<User>> {
@@ -25,7 +27,7 @@ class UsersUseCaseImpl @Inject constructor(
     }
 
     override suspend fun fetchUserDetail(userName: String): State<User> {
-        return when(val response = networkRepository.getUser(userName)) {
+        return when (val response = networkRepository.getUser(userName)) {
             is Success -> {
                 val user = response.data.transform()
                 Success(user)
@@ -34,5 +36,9 @@ class UsersUseCaseImpl @Inject constructor(
                 Failure(response.error)
             }
         }
+    }
+
+    override suspend fun updateUser(note: String, id: Int) {
+        localRepository.updateUser(note, id)
     }
 }

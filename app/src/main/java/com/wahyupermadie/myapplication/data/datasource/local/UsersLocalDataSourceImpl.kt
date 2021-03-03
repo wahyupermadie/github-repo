@@ -19,6 +19,10 @@ class UsersLocalDataSourceImpl(
         userDao.updateUser(followers, following, repos, blog, id)
     }
 
+    override suspend fun updateUser(note: String, id: Int) {
+        userDao.updateUser(note, id)
+    }
+
     override suspend fun getDetailUser(id: Int): UserResponse {
         return userDao.getUserDetail(id)
     }

@@ -1,61 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeHome"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".presentation.main.MainActivity">
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-        android:focusableInTouchMode="false"
-        android:id="@+id/etSearch"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_48"
-        android:layout_marginBottom="@dimen/margin_8"
-        android:layout_marginEnd="@dimen/margin_16"
-        android:layout_marginStart="@dimen/margin_16"
-        android:layout_marginTop="@dimen/margin_8"
-        android:background="@drawable/bg_rounded"
-        android:drawablePadding="@dimen/margin_8"
-        android:drawableStart="@drawable/ic_search"
-        android:hint="@string/text_search"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingStart="@dimen/margin_8"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".presentation.main.MainActivity">
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmerHome"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_0"
-        android:layout_marginTop="@dimen/margin_8"
-        app:layout_constraintBottom_toBottomOf="@+id/rvUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:shimmer_duration="1000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch"
-        app:shimmer_auto_start="true">
+        <EditText
+            android:focusableInTouchMode="false"
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_48"
+            android:layout_marginBottom="@dimen/margin_8"
+            android:layout_marginEnd="@dimen/margin_16"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="@dimen/margin_8"
+            android:background="@drawable/bg_rounded"
+            android:drawablePadding="@dimen/margin_8"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="@string/text_search"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:paddingStart="@dimen/margin_8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry" />
 
-        <include layout="@layout/shimmer_user_layout" />
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerHome"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_0"
+            android:layout_marginTop="@dimen/margin_8"
+            app:layout_constraintBottom_toBottomOf="@+id/rvUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shimmer_duration="1000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
+            app:shimmer_auto_start="true">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/rvUser"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_0"
-        android:layout_marginTop="@dimen/margin_8"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etSearch"
-        tools:listitem="@layout/item_user" />
+            <include layout="@layout/shimmer_user_layout" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
+            android:id="@+id/rvUser"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_0"
+            android:layout_marginTop="@dimen/margin_8"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch"
+            tools:listitem="@layout/item_user" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:visibility="gone"
+            android:id="@+id/clErrorState"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etSearch">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_error" />
+
+            <TextView
+                android:layout_marginEnd="@dimen/margin_24"
+                android:layout_marginStart="@dimen/margin_24"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:text="@string/text_something_went_wrong_please_try_again_latter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

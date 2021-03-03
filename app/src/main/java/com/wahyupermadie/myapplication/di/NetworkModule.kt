@@ -6,8 +6,8 @@ import com.wahyupermadie.myapplication.BuildConfig
 import com.wahyupermadie.myapplication.data.service.ApiService
 import com.wahyupermadie.myapplication.utils.network.AppDispatcherProvider
 import com.wahyupermadie.myapplication.utils.network.DispatcherProvider
-import com.wahyupermadie.myapplication.utils.network.NetworkCacheInterceptor
-import com.wahyupermadie.myapplication.utils.network.connection.NetworkState
+import com.wahyupermadie.myapplication.utils.network.REWRITE_RESPONSE_INTERCEPTOR
+import com.wahyupermadie.myapplication.utils.network.REWRITE_RESPONSE_INTERCEPTOR_OFFLINE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,22 +31,17 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provdieOkHttpClinet(
-        application: Application,
-        networkState: NetworkState
+        application: Application
     ): OkHttpClient {
         val cacheSize = (5 * 1024 * 1024).toLong()
         val myCache = Cache(application.cacheDir, cacheSize)
 
         return OkHttpClient.Builder()
-            .cache(myCache)
+            .retryOnConnectionFailure(true)
             .addInterceptor(ChuckInterceptor(application))
-            .addInterceptor {
-                val request = it.request()
-                    .newBuilder()
-                    .addHeader("Accept", "application/vnd.github.v3+json")
-                    .build()
-                it.proceed(request)
-            }.addInterceptor(NetworkCacheInterceptor(networkState))
+            .addNetworkInterceptor(REWRITE_RESPONSE_INTERCEPTOR)
+            .addInterceptor(application.REWRITE_RESPONSE_INTERCEPTOR_OFFLINE)
+            .cache(myCache)
             .build()
     }
 

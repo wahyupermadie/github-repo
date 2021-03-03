@@ -23,4 +23,7 @@ interface UserDao {
 
     @Query("SELECT * FROM tb_user WHERE login LIKE :name OR note LIKE :note")
     fun searchUsers(name: String, note: String): Flow<List<UserResponse>>
+
+    @Query("UPDATE tb_user SET note = :note WHERE id = :id")
+    suspend fun updateUser(note: String, id: Int)
 }
